@@ -22,3 +22,33 @@ _cgo_export.*
 _testmain.go
 
 *.exe
+
+# Additional Go build artifacts
+*.test
+*.out
+go.work
+
+# Steam CLI specific binaries and logs
+cmd/steam-cli/steam
+cmd/steam-cli/steam.exe
+cmd/test-runner/steam-test*
+cmd/test-runner/steam-interactive
+steam-test.log
+
+# Session and config files (contain sensitive data)
+.steam-cli/
+session.json
+rate_limit.json
+
+# Testing artifacts
+test-results/
+coverage.html
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

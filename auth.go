@@ -110,7 +110,14 @@ func (a *Auth) handleLogOnResponse(packet *protocol.Packet) {
 	if result == steamlang.EResult_OK {
 		atomic.StoreInt32(&a.client.sessionId, msg.Header.Proto.GetClientSessionid())
 		atomic.StoreUint64(&a.client.steamId, msg.Header.Proto.GetSteamid())
-		a.client.Web.webLoginKey = *body.WebapiAuthenticateUserNonce
+		
+		// Fix nil pointer dereference - check if WebapiAuthenticateUserNonce exists
+		if body.WebapiAuthenticateUserNonce != nil {
+			a.client.Web.webLoginKey = *body.WebapiAuthenticateUserNonce
+		} else {
+			// This might be expected for some auth flows
+			a.client.Web.webLoginKey = ""
+		}
 
 		go a.client.heartbeatLoop(time.Duration(body.GetOutOfGameHeartbeatSeconds()))
 

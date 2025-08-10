@@ -110,6 +110,13 @@ func (s *Social) AddFriend(id steamid.SteamId) {
 	}))
 }
 
+// Adds a friend by account name or email
+func (s *Social) AddFriendByName(accountName string) {
+	s.client.Write(protocol.NewClientMsgProtobuf(steamlang.EMsg_ClientAddFriend, &protobuf.CMsgClientAddFriend{
+		AccountnameOrEmailToAdd: proto.String(accountName),
+	}))
+}
+
 // Removes a friend from your friends list
 func (s *Social) RemoveFriend(id steamid.SteamId) {
 	s.client.Write(protocol.NewClientMsgProtobuf(steamlang.EMsg_ClientRemoveFriend, &protobuf.CMsgClientRemoveFriend{
