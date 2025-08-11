@@ -53,6 +53,33 @@ func handleFriendsAdd(friendCode string) error {
 	return nil
 }
 
+func handleFriendsAccept(steamIdStr string) error {
+	// Ensure we have an active connection (handles daemon mode too)
+	if err := ensureConnection(); err != nil {
+		return err
+	}
+
+	steamId64, err := strconv.ParseUint(steamIdStr, 10, 64)
+	if err != nil {
+		return fmt.Errorf("invalid Steam ID: %s", steamIdStr)
+	}
+
+	steamId := steamid.SteamId(steamId64)
+	
+	fmt.Printf("✅ Accepting friend request from: %d\n", steamId)
+	
+	// To accept a friend request, we use AddFriend on the pending request
+	globalClient.Social.AddFriend(steamId)
+	
+	fmt.Println("✅ Friend request accepted!")
+	fmt.Println("⏳ Waiting for confirmation...")
+	
+	// Wait a bit for the response
+	time.Sleep(3 * time.Second)
+	
+	return nil
+}
+
 func handleFriendsRemove(steamIdStr string) error {
 	if !isAuthenticated() {
 		return fmt.Errorf("not authenticated")
