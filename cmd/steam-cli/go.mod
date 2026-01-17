@@ -11,7 +11,7 @@ require (
 
 require (
 	golang.org/x/sys v0.35.0 // indirect
-	google.golang.org/protobuf v1.27.1 // indirect
+	google.golang.org/protobuf v1.33.0 // indirect
 )
 
 replace github.com/Philipp15b/go-steam/v3 => ../../
